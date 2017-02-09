@@ -1,4 +1,10 @@
-<g:render template="/layouts/header"/>
+<html>
+<head>
+    <title>Welcome to Grails</title>
+    <meta name="layout" content="main" />
+    <!-- CSS styling snipped -->
+</head>
+<body>
 <h1>Edit a User</h1>
 <g:if test="${flash.message}">
     <div class="message">${flash.message}</div>
@@ -32,4 +38,5 @@
         </tr>
     </table>
 </g:form>
-<g:render template="/layouts/footer" />
+</body>
+</html>

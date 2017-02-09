@@ -1,10 +1,15 @@
-<g:render template="/layouts/header"/>
+<html>
+<head>
+    <title>Welcome to Grails</title>
+    <meta name="layout" content="main" />
+    <!-- CSS styling snipped -->
+</head>
+<body>
 <h1>Create a User</h1>
-<g:if test="${flash.message}">
-    <div class="message">${flash.message}</div>
-</g:if>
+<g:hasErrors bean="${content}">
+    <g:renderErrors bean="${content}" as="list" />
+</g:hasErrors>
 <form name="form1" action="save" method="post">
-
     <table>
         <tr>
             <td>Full Name</td>
@@ -35,4 +40,5 @@
         </tr>
     </table>
 </form>
-<g:render template="/layouts/footer" />
+</body>
+</html>

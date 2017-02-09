@@ -36,7 +36,7 @@ class ItemController {
         def item = Item.createCriteria()
         def items = item.list {
             createAlias('category', 'c', CriteriaSpecification.LEFT_JOIN)
-            eq('c.id', Long.valueOf(CategoryID))
+            eq('c.id', false)
         }
         [items: items,category: category]
     }

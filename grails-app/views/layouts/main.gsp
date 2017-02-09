@@ -13,16 +13,45 @@
 		<link rel="apple-touch-icon" href="${resource(dir: 'images', file: 'apple-touch-icon.png')}">
 		<link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}">
 		<link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
-		<link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css">
 		<g:layoutHead/>
-		<g:javascript library="application"/>		
+		<g:javascript library="application"/>
 		<r:layoutResources />
 	</head>
 	<body>
-		<div id="grailsLogo" role="banner"><a href="http://grails.org"><img src="${resource(dir: 'images', file: 'grails_logo.png')}" alt="Grails"/></a></div>
+	<div class="main-wrapper">
+		<div class="custom-menu-wrapper">
+			<div class="heading">Welcome to Inventory Management System
+				<sec:ifLoggedIn>
+					<sec:ifAllGranted roles="ROLE_ADMIN">
+					<span class="logout">
+						<div>Welcome ${session?.user?.fullName} </div>
+						<div><g:link controller="user" action="logout"> Log Out</g:link></div>
+					</span></sec:ifAllGranted></sec:ifLoggedIn></div>
+			<div class="menu">
+				<ul>
+					<li><g:link uri="/">Home</g:link></li>
+					<li><g:link controller="user" action="list">Users</g:link>
+						<sec:ifLoggedIn>
+							<sec:ifAllGranted roles="ROLE_ADMIN">
+							<ul>
+								<li><g:link controller="user" action="create">Add a User</g:link> </li>
+							</ul>
+							</sec:ifAllGranted>
+						</sec:ifLoggedIn></li>
+					<li><g:link controller="item" action="list">Items</g:link><ul>
+						<li><g:link controller="item" action="create">Add an Item</g:link> </li>
+						<li><g:link controller="category" action="list">Item Category</g:link></li>
+						<li><g:link controller="category" action="create">Add a Category</g:link></li>
+					</ul>
+					</li>
+					<li><g:link controller="user" action="edit" id="${session?.user?.id}">My Account</g:link></li>
+				</ul>
+			</div>
+		</div>
+		<div class="main">
 		<g:layoutBody/>
-		<div class="footer" role="contentinfo"></div>
-		<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
-		<r:layoutResources />
+		</div>
+		<div>Copyright all rights reserved</div>
+	</div>
 	</body>
 </html>

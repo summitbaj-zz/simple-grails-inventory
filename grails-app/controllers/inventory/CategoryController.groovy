@@ -1,30 +1,22 @@
 package inventory
 
-class CategoryController {
+import grails.plugin.springsecurity.annotation.Secured
 
+class CategoryController {
+    static layout = 'main'
     static allowedMethods = [save:"POST", update:"POST"]
+
     def index() {
         redirect(action:  "list", params: params)
     }
 
-    def beforeInterceptor = [action:this.&auth,
-                             except:['login', 'logout', 'authenticate']]
-
-
-    def auth() {
-        if(!session.user) {
-            redirect(controller:"user", action:"login")
-            return false
-        }
-    }
-
-
+    @Secured(["ROLE_ADMIN"])
     def list(){
         params.max = Math.min(params.max ?
                 params.int('max') : 10, 100)
         [categories: Category.list(params)]
     }
-
+    @Secured(["ROLE_ADMIN"])
     def create(){
         [parent: Category.list()]
     }
@@ -40,7 +32,7 @@ class CategoryController {
         }
     }
     def delete ={
-        def category = Category.get(params.id)
+        def category = User.get(params.id)
         category.delete flush:true , failOnError: true
         redirect action: "list"
     }

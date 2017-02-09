@@ -113,3 +113,27 @@ log4j = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 }
+
+
+
+// Added by the Audit-Logging plugin:
+auditLog.auditDomainClassName = 'inventory.AuditLogEvent'
+
+
+
+// Added by the Spring Security Core plugin:
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'inventory.User'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'inventory.SecUserSecRole'
+grails.plugin.springsecurity.authority.className = 'inventory.SecRole'
+grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+	'/':                ['permitAll'],
+	'/index':           ['permitAll'],
+	'/index.gsp':       ['permitAll'],
+	'/assets/**':       ['permitAll'],
+	'/**/js/**':        ['permitAll'],
+	'/**/css/**':       ['permitAll'],
+	'/**/images/**':    ['permitAll'],
+	'/**/favicon.ico':  ['permitAll'],
+
+]
+

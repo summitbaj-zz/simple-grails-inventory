@@ -19,5 +19,5 @@
             <td>${user.role}</td>
         </tr>
     </table>
-
-<g:render template="/layouts/footer" />
+</body>
+</html>

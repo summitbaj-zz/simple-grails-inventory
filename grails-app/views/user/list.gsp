@@ -1,4 +1,10 @@
-<g:render template="/layouts/header"/>
+<html>
+<head>
+    <title>Welcome to Grails</title>
+    <meta name="layout" content="main" />
+    <!-- CSS styling snipped -->
+</head>
+<body>
 <h1>Users</h1>
 <table>
     <tr>
@@ -13,9 +19,10 @@
             <td>${user.fullName}</td>
             <td>${user.email}</td>
             <td>${user.phone}</td>
-            <td>${user.role}</td>
+            <td>${user.authorities}</td>
             <g:if test="${session?.user?.admin}"><td><g:link action="delete" id="${user.id}" >Delete</g:link> | <g:link action="edit" id="${user.id}">Edit</g:link> </td></g:if>
     </tr>
     </g:each>
 </table>
-<g:render template="/layouts/footer" />
+</body>
+</html>

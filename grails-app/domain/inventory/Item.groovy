@@ -1,6 +1,7 @@
 package inventory
 
 class Item {
+    static auditable = true
     static hasMany = [category: Category]
     static belongsTo = Category
     static constraints = {

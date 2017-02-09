@@ -1,5 +1,10 @@
-<g:render template="/layouts/header"/>
-<h1></h1>
+<html>
+<head>
+    <title>Welcome to Grails</title>
+    <meta name="layout" content="main" />
+    <!-- CSS styling snipped -->
+</head>
+<body>
 <g:form action="save" method="post">
     <table>
         <tr>
@@ -20,4 +25,5 @@
         </tr>
     </table>
 </g:form>
-<g:render template="/layouts/footer" />
+</body>
+</html>

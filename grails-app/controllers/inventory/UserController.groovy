@@ -1,55 +1,16 @@
 package inventory
+import grails.plugin.springsecurity.annotation.Secured
 
+@Secured(['ROLE_ADMIN'])
 class UserController {
     static allowedMethods = [save:"POST", update:"POST"]
-
-    def beforeInterceptor = [action:this.&auth,
-                             except:['login', 'logout', 'authenticate']]
 
 
     def index() {
         redirect(action:  "list", params: params)
     }
 
-    def auth() {
-        if(!session.user) {
-            redirect(controller:"user", action:"login")
-            return false
-        }
-        if(!session.user.admin){
-            flash.message = "Tsk tsk—admins only"
 
-            beforeInterceptor = [action:this.listRedirect,
-                                     only:['create','save','delete']]
-            return false
-        }
-    }
-
-    def listRedirect ={
-        redirect(controller: "user", action: "list")
-    }
-
-    def logout = {
-        flash.message = "Goodbye ${session.user.fullName}"
-        session.user = null
-        redirect(action:"login")
-    }
-
-    def login = {
-
-    }
-    def authenticate = {
-        def user =
-                User.findByEmailAndPassword(params.email, params.password)
-        if(user){
-            session.user = user
-            flash.message = "Hello ${user.fullName}!"
-            redirect(controller:"user", action:"list")
-        }else{
-            flash.message = "Sorry, cannot login with ${params.email} "
-            redirect(action:"login")
-        }
-    }
 
     def list(){
         params.max = Math.min(params.max ?
@@ -58,19 +19,19 @@ class UserController {
          totalUser: User.count()]
     }
 
+
     def create(){
         def userInstance = new User()
         [userInstance: userInstance]
     }
 
-    def save = {
-        def user = new User(params)
-        if (user.validate()) {
+    def save = { UserCommand command ->
+        if (command.hasErrors()) {
+            render (view: "create", model: [content: command])
+
+        }else{
             user.save flush: true, failOnError: true
             redirect action: "show", id: user.id
-        }else{
-            flash.message = "Please fill the required field properly";
-            redirect( controller: "user", action: "create")
         }
     }
 
@@ -106,4 +67,21 @@ class UserController {
                 redirect( controller: "user", action: "edit",id: user.id)
             }
     }
+}
+
+
+class UserCommand {
+
+    static constraints = {
+        fullName(blank: false)
+        email(blank: false, email: true)
+        password(blank: false, password: true)
+        phone(blank: false)
+
+    }
+
+    String fullName
+    String email
+    String password
+    String phone
 }
